@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 54514048000603892}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71,7 +71,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1461078022911368}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4630407555391170}
@@ -99,8 +99,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1013471849023608}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.08, y: 3, z: 2.52}
-  m_LocalScale: {x: 3.17, y: 10.2, z: 15}
+  m_LocalPosition: {x: -0.01, y: 3, z: 1.09}
+  m_LocalScale: {x: 1.53, y: 4.41, z: 15}
   m_Children: []
   m_Father: {fileID: 4075207306442190}
   m_RootOrder: 1
@@ -133,7 +133,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 311
+    m_Bits: 1335
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -200,7 +200,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 94
   m_CollisionDetection: 0
 --- !u!81 &81293248104641772
 AudioListener:
@@ -222,6 +222,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraXSensitivity: 10
   cameraYSensitivity: 1
+  cooldown: 1.5
+  lightningTravelingSpeed: 1
+  projectile: {fileID: 1206192030346514, guid: e19824a49592dd7499ad7ceaeeb44e5f, type: 2}
 --- !u!136 &136333104937278630
 CapsuleCollider:
   m_ObjectHideFlags: 1
