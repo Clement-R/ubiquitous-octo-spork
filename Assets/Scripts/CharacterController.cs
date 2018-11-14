@@ -5,6 +5,7 @@ public class CharacterController : MonoBehaviour {
     public float cameraXSensitivity = 10f;
     public float cameraYSensitivity = 1f;
 
+    public int startHealth = 5;
 	public float speed = 2f;
 
     [HeaderAttribute("Lightning")]
@@ -18,9 +19,11 @@ public class CharacterController : MonoBehaviour {
 	private GameObject _activeProjectile;
 	private Rigidbody _rb;
 	private int _markersLeft = 0;
+    private int _health = 5;
 
 	private void Start() {
-		_rb = GetComponent<Rigidbody>();
+        _health = startHealth;
+        _rb = GetComponent<Rigidbody>();
 		_markersLeft = 5;
 
 		Cursor.lockState = CursorLockMode.Locked;
@@ -91,6 +94,11 @@ public class CharacterController : MonoBehaviour {
 	public void AddMarker() {
 		_markersLeft++;
 	}
+
+    public void Hit()
+    {
+        _health--;
+    }
 
     static float ClampAngle(float angle, float min, float max)
     {

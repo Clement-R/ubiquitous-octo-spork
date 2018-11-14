@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using pkm.EventManager;
 
 public class EnemyOrchestrator : MonoBehaviour {
     
@@ -22,6 +23,7 @@ public class EnemyOrchestrator : MonoBehaviour {
 	}
 
 	public void RemoveEnemy(GameObject enemy) {
+        EventManager.TriggerEvent("EnemyKill", new { });
 		enemies.Remove(enemies.Find(e => e.gameObject == enemy));
 	}
 

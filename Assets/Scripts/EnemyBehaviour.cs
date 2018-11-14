@@ -6,6 +6,7 @@ using UnityEngine.Experimental.LowLevel;
 public class EnemyBehaviour : MonoBehaviour {
 	public float speed = 5f;
 	public GameObject mark;
+    public GameObject floatingScore;
 
 	public bool IsMarked {
 		get { return _marked; }
@@ -33,14 +34,18 @@ public class EnemyBehaviour : MonoBehaviour {
 	}
 
 	private void OnCollisionEnter(Collision other) {
-		if (other.collider.CompareTag("Projectile") && IsMarked) {
+		if (other.collider.CompareTag("Projectile")) {
 			ProjectileBehaviour projectile = other.collider.gameObject.GetComponent<ProjectileBehaviour>();
 
 			if (IsMarked) {
 				projectile.firstHit = false;
+                Debug.Log("Shot hit");
 
-				// Search closest enemy and set it as next target for the projectile
-				GameObject nextTarget = enemyOrchestrator.FindClosestEnemyInRange(gameObject);
+                GameObject text = Instantiate(floatingScore, transform.position + new Vector3(0f, -0.5f, -1.5f), Quaternion.identity);
+                text.GetComponent<TMPro.TextMeshPro>().text = projectile.GetCombo().ToString();
+
+                // Search closest enemy and set it as next target for the projectile
+                GameObject nextTarget = enemyOrchestrator.FindClosestEnemyInRange(gameObject);
 				if (nextTarget != null) {
 					projectile.SetNextTarget(nextTarget);
 				} else {
@@ -52,10 +57,17 @@ public class EnemyBehaviour : MonoBehaviour {
 				Destroy(gameObject);
 			} else {
 				if (projectile.firstHit) {
-					Destroy(other.gameObject);
+                    Debug.Log("Shot hit unmarked");
+                    Destroy(other.gameObject);
 				}
 			}
-		}
+		} else if(other.collider.CompareTag("Player"))
+        {
+            Debug.Log("HIT");
+            other.gameObject.GetComponent<CharacterController>().Hit();
+            enemyOrchestrator.RemoveEnemy(gameObject);
+            Destroy(gameObject);
+        }
 	}
 
 	private void FixedUpdate() {

@@ -262,6 +262,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   mark: {fileID: 1336701300293968}
+  floatingScore: {fileID: 1284138957212512, guid: 1f24ba9d9f3cc58488449d4ab0bfe051,
+    type: 2}
   enemyOrchestrator: {fileID: 0}
 --- !u!135 &135816354749476550
 SphereCollider:
