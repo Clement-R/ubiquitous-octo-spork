@@ -1,25 +1,69 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.LowLevel;
 
 public class EnemyBehaviour : MonoBehaviour {
+	public float speed = 5f;
+	public GameObject mark;
+
+	public bool IsMarked {
+		get { return _marked; }
+	}
+
+	[HideInInspector]
+	public EnemyOrchestrator enemyOrchestrator;
 
     private Rigidbody _rb;
+	private GameObject _target;
+	private bool _marked = false;
 
-	void Start () {
-        _rb = GetComponent<Rigidbody>();
-        StartCoroutine(MoveToPosition(EnemyOrchestrator.playerPosition, 5f));
-    }
+	public void SetTarget(GameObject player) {
+		_target = player;
+	}
 
-    IEnumerator MoveToPosition(Vector3 position, float timeToMove)
-    {
-        Vector3 currentPos = transform.position;
-        float t = 0f;
-        while (t < 1)
-        {
-            t += Time.deltaTime / timeToMove;
-            _rb.MovePosition(Vector3.Lerp(currentPos, position, t));
-            yield return null;
-        }
-    }
+	public void SetAsMarked() {
+		_marked = true;
+		mark.SetActive(true);
+	}
+
+	private void Awake() {
+		_rb = GetComponent<Rigidbody>();
+		mark.SetActive(false);
+	}
+
+	private void OnCollisionEnter(Collision other) {
+		if (other.collider.CompareTag("Projectile") && IsMarked) {
+			ProjectileBehaviour projectile = other.collider.gameObject.GetComponent<ProjectileBehaviour>();
+
+			if (IsMarked) {
+				projectile.firstHit = false;
+
+				// Search closest enemy and set it as next target for the projectile
+				GameObject nextTarget = enemyOrchestrator.FindClosestEnemyInRange(gameObject);
+				if (nextTarget != null) {
+					projectile.SetNextTarget(nextTarget);
+				} else {
+					Destroy(other.gameObject);
+				}
+
+				// TODO : Play animation or FX
+				enemyOrchestrator.RemoveEnemy(gameObject);
+				Destroy(gameObject);
+			} else {
+				if (projectile.firstHit) {
+					Destroy(other.gameObject);
+				}
+			}
+		}
+	}
+
+	private void FixedUpdate() {
+		if (_target != null) {
+			transform.LookAt(_target.transform, Vector3.up);
+			Vector3 direction = (_target.transform.position - transform.position).normalized;
+			direction.y = 0f;
+			_rb.velocity = direction * speed;
+		}
+	}
 }

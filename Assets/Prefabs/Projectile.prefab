@@ -21,11 +21,12 @@ GameObject:
   - component: {fileID: 4052554046945432}
   - component: {fileID: 33674680068978872}
   - component: {fileID: 23127975283810764}
+  - component: {fileID: 114870774044057350}
   - component: {fileID: 135389766284597628}
   - component: {fileID: 54709075888592084}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: Projectile
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40,7 +41,7 @@ GameObject:
   - component: {fileID: 4652281404027198}
   - component: {fileID: 198712204657612916}
   - component: {fileID: 199221991713550040}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131,6 +132,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &114870774044057350
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1206192030346514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff27c06dceda63e4389ac810ab146dca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  afterBounceSpeed: 15
+  numberOfBounce: 5
+  timeToLive: 5
 --- !u!135 &135389766284597628
 SphereCollider:
   m_ObjectHideFlags: 1

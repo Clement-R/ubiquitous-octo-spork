@@ -5,6 +5,8 @@ public class CharacterController : MonoBehaviour {
     public float cameraXSensitivity = 10f;
     public float cameraYSensitivity = 1f;
 
+	public float speed = 2f;
+
     [HeaderAttribute("Lightning")]
     public float cooldown = 1.5f;
     public float lightningTravelingSpeed = 1f;
@@ -13,39 +15,82 @@ public class CharacterController : MonoBehaviour {
 
     private float _rotationY = 0f;
     private float _lastShot = -10f;
-    
-    void Update () {
-        // Camera rotation
-        float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * cameraXSensitivity;
-        transform.localEulerAngles = new Vector3(0, rotationX, 0);
+	private GameObject _activeProjectile;
+	private Rigidbody _rb;
+	private int _markersLeft = 0;
 
-        // TODO : Gyroscope support
+	private void Start() {
+		_rb = GetComponent<Rigidbody>();
+		_markersLeft = 5;
 
-        if(Input.GetMouseButtonDown(0) && Time.time > _lastShot + cooldown)
-        {
-            Shoot();
-        }
-    }
+		Cursor.lockState = CursorLockMode.Locked;
+	}
 
-    void Shoot()
+	void Update() {
+		// Camera rotation
+		float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * cameraXSensitivity;
+		transform.localEulerAngles = new Vector3(0, rotationX, 0);
+
+		// TODO : Gyroscope support
+
+		if (Input.GetMouseButtonDown(0) && Time.time > _lastShot + cooldown && _activeProjectile == null) {
+			Shoot();
+		}
+
+		if (Input.GetMouseButtonDown(1)) {
+			Mark();
+		}
+
+		_rb.velocity = Vector3.zero;
+		if (Input.GetKey(KeyCode.Z)) {
+			_rb.velocity += transform.forward * speed;
+		} else if (Input.GetKey(KeyCode.S)) {
+			_rb.velocity -= transform.forward * speed;
+		}
+
+		if (Input.GetKey(KeyCode.D)) {
+			_rb.velocity += transform.right * speed;
+		} else if (Input.GetKey(KeyCode.Q)) {
+			_rb.velocity -= transform.right * speed;
+		}
+	}
+
+	void Shoot()
     {
         _lastShot = Time.time;
 
-        GameObject projectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
-        projectile.GetComponent<Rigidbody>().velocity = transform.forward * 5f;
+	    _activeProjectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
+	    _activeProjectile.GetComponent<Rigidbody>().velocity = transform.forward * _activeProjectile.GetComponent<ProjectileBehaviour>().speed;
+	}
 
-        // Cast a ray in forward direction and filter to only get
-        RaycastHit hit;
-        Debug.DrawRay(transform.position, transform.forward * 31f, Color.red);
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 31f, LayerMask.GetMask("Enemy"))) {
-            Debug.DrawRay(transform.position, transform.forward * 31f, Color.red);
-            Debug.Log(hit.collider.gameObject.name);
-        }
+	void Mark()
+	{
+		if (_markersLeft > 0) {
+			// Cast a ray in forward direction and filter to only get enemies
+			RaycastHit hit = GetHittedEnemy();
+			if (hit.collider != null) {
+				hit.collider.gameObject.GetComponent<EnemyBehaviour>().SetAsMarked();
+				_markersLeft--;
+				Debug.Log(_markersLeft);
+			}
+		}
+	}
 
-        // TODO : can't shoot while a lightning is growing
-        // TODO : hit detect enemy
-        // TODO : if no hit stop growing after a given max length
-    }
+	RaycastHit GetHittedEnemy() {
+		// Cast a ray in forward direction and filter to only get enemies
+		RaycastHit hit;
+		Debug.DrawRay(transform.position, transform.forward * 31f, Color.red);
+		if (Physics.Raycast(transform.position, transform.forward, out hit, 31f, LayerMask.GetMask("Enemy"))) {
+			Debug.DrawRay(transform.position, transform.forward * 31f, Color.red);
+			Debug.Log(hit.collider.gameObject.name);
+		}
+
+		return hit;
+	}
+
+	public void AddMarker() {
+		_markersLeft++;
+	}
 
     static float ClampAngle(float angle, float min, float max)
     {
