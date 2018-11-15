@@ -143,10 +143,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff27c06dceda63e4389ac810ab146dca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 10
   afterBounceSpeed: 15
   numberOfBounce: 5
   timeToLive: 5
+  firstHit: 1
 --- !u!135 &135389766284597628
 SphereCollider:
   m_ObjectHideFlags: 1

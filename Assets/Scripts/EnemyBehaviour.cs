@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using pkm.EventManager;
 using UnityEngine;
 using UnityEngine.Experimental.LowLevel;
 
@@ -49,9 +50,11 @@ public class EnemyBehaviour : MonoBehaviour {
 				if (nextTarget != null) {
 					projectile.SetNextTarget(nextTarget);
 				} else {
+					EventManager.TriggerEvent("OnChainEnd", new { valueToAdd = projectile.GetCombo() });
 					Destroy(other.gameObject);
 				}
 
+				EventManager.TriggerEvent("OnEnemyKill", new { valueToAdd = 1});
 				// TODO : Play animation or FX
 				enemyOrchestrator.RemoveEnemy(gameObject);
 				Destroy(gameObject);
