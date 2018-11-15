@@ -55,6 +55,7 @@ public class EnemyBehaviour : MonoBehaviour {
 				}
 
 				EventManager.TriggerEvent("OnEnemyKill", new { valueToAdd = 1});
+				
 				// TODO : Play animation or FX
 				enemyOrchestrator.RemoveEnemy(gameObject);
 				Destroy(gameObject);
@@ -64,13 +65,16 @@ public class EnemyBehaviour : MonoBehaviour {
                     Destroy(other.gameObject);
 				}
 			}
-		} else if(other.collider.CompareTag("Player"))
-        {
-            Debug.Log("HIT");
-            other.gameObject.GetComponent<CharacterController>().Hit();
-            enemyOrchestrator.RemoveEnemy(gameObject);
-            Destroy(gameObject);
-        }
+		}
+	}
+
+	private void OnTriggerEnter(Collider other) {
+		if (other.CompareTag("Player")) {
+			Debug.Log("HIT");
+			other.gameObject.GetComponent<CharacterController>().Hit();
+			enemyOrchestrator.RemoveEnemy(gameObject);
+			Destroy(gameObject);
+		}
 	}
 
 	private void FixedUpdate() {

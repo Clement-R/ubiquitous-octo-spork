@@ -15,7 +15,7 @@ public class MarkerSpawner : MonoBehaviour {
 		
 		Instantiate(markPrefab, new Vector3(position.x, 1f, position.y), Quaternion.identity);
 		
-		yield return new WaitForSeconds(6f);
+		yield return new WaitForSeconds(2f);
 		StartCoroutine(SpawnMark());
 	}
 }

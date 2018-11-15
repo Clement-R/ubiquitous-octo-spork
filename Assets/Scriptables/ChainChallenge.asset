@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Name: ChainChallenge
   m_EditorClassIdentifier: Assembly-CSharp::ChainChallenge
   type: 1
-  name: Default chain challenge
-  goal: 3
+  name: Low chain challenge
+  goal: 5
   currentValue: 0

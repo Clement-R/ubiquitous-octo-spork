@@ -71,7 +71,9 @@ namespace pkm.EventManager {
 
             if (instance.eventDict.TryGetValue(evt, out item))
             {
-                item.Invoke(obj);
+	            if (item != null) {
+					item.Invoke(obj);
+	            }
             }
             
         }

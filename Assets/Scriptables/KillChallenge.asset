@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Name: KillChallenge
   m_EditorClassIdentifier: Assembly-CSharp::KillChallenge
   type: 0
-  name: Default kill challenge
+  name: Low kill challenge
   goal: 3
   currentValue: 0
