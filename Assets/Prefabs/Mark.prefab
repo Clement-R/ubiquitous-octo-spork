@@ -182,6 +182,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3691281a8bb00e848bdf1957cd65f920, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sfxPlayer: {fileID: 1258767548394096, guid: 746151381b393164db7eb0592ac785a6, type: 2}
+  pickupSound: {fileID: 8300000, guid: 82c3c3e79c7a3a54383dcec198243419, type: 3}
 --- !u!135 &135173595514546246
 SphereCollider:
   m_ObjectHideFlags: 1

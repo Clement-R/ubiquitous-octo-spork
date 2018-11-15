@@ -12,7 +12,10 @@ public class ChallengeOrchestrator : MonoBehaviour {
 	void Start () {
 		EventManager.StartListening("OnChallengeComplete", OnChallengeComplete);
 		EventManager.StartListening("OnChallengeUpdate", OnChallengeUpdate);
-		AddChallenge(debugChall);
+        if(debugChall != null)
+        {
+            AddChallenge(debugChall);
+        }
 	}
 
 	private void OnChallengeUpdate(dynamic obj) {

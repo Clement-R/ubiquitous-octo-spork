@@ -31,23 +31,3 @@ public abstract class Challenge : ScriptableObject {
 
 	public abstract void Clean();
 }
-
-public class KillChallenge : Challenge {
-	public override void Initialize() {
-		EventManager.StartListening("OnEnemyKill", UpdateChallenge);
-	}
-
-	public override void Clean() {
-		EventManager.StopListening("OnEnemyKill", UpdateChallenge);
-	}
-}
-
-public class ChainChallenge : Challenge {
-	public override void Initialize() {
-		EventManager.StartListening("OnChainEnd", UpdateChallenge);
-	}
-
-	public override void Clean() {
-		EventManager.StopListening("OnChainEnd", UpdateChallenge);
-	}
-}

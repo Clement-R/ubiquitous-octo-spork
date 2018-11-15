@@ -264,6 +264,10 @@ MonoBehaviour:
   mark: {fileID: 1336701300293968}
   floatingScore: {fileID: 1284138957212512, guid: 1f24ba9d9f3cc58488449d4ab0bfe051,
     type: 2}
+  sfxPlayer: {fileID: 1258767548394096, guid: 746151381b393164db7eb0592ac785a6, type: 2}
+  deathSound: {fileID: 8300000, guid: 091bebf5a5d351f498a1d2c8c1c95623, type: 3}
+  hitSound: {fileID: 8300000, guid: c96fb9dfdf668ea49892da3550244a9c, type: 3}
+  hurtSound: {fileID: 8300000, guid: 3108138e9a80b11499bf8aed435000b9, type: 3}
   enemyOrchestrator: {fileID: 0}
 --- !u!135 &135816354749476550
 SphereCollider:

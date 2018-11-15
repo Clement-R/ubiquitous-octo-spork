@@ -8,8 +8,12 @@ public class EnemyBehaviour : MonoBehaviour {
 	public float speed = 5f;
 	public GameObject mark;
     public GameObject floatingScore;
+    public GameObject sfxPlayer;
 
-	public bool IsMarked {
+    public AudioClip hitSound;
+    public AudioClip hurtSound;
+
+    public bool IsMarked {
 		get { return _marked; }
 	}
 
@@ -40,10 +44,10 @@ public class EnemyBehaviour : MonoBehaviour {
 
 			if (IsMarked) {
 				projectile.firstHit = false;
-                Debug.Log("Shot hit");
 
                 GameObject text = Instantiate(floatingScore, transform.position + new Vector3(0f, -0.5f, -1.5f), Quaternion.identity);
                 text.GetComponent<TMPro.TextMeshPro>().text = projectile.GetCombo().ToString();
+                PlaySound(hitSound, projectile.GetCombo());
 
                 // Search closest enemy and set it as next target for the projectile
                 GameObject nextTarget = enemyOrchestrator.FindClosestEnemyInRange(gameObject);
@@ -56,12 +60,10 @@ public class EnemyBehaviour : MonoBehaviour {
 
 				EventManager.TriggerEvent("OnEnemyKill", new { valueToAdd = 1});
 				
-				// TODO : Play animation or FX
 				enemyOrchestrator.RemoveEnemy(gameObject);
 				Destroy(gameObject);
 			} else {
 				if (projectile.firstHit) {
-                    Debug.Log("Shot hit unmarked");
                     Destroy(other.gameObject);
 				}
 			}
@@ -71,7 +73,8 @@ public class EnemyBehaviour : MonoBehaviour {
 	private void OnTriggerEnter(Collider other) {
 		if (other.CompareTag("Player")) {
 			Debug.Log("HIT");
-			other.gameObject.GetComponent<CharacterController>().Hit();
+            PlaySound(hurtSound);
+            other.gameObject.GetComponent<CharacterController>().Hit();
 			enemyOrchestrator.RemoveEnemy(gameObject);
 			Destroy(gameObject);
 		}
@@ -85,4 +88,16 @@ public class EnemyBehaviour : MonoBehaviour {
 			_rb.velocity = direction * speed;
 		}
 	}
+
+    private void PlaySound(AudioClip clip, int pitch=1)
+    {
+        GameObject sfx = Instantiate(sfxPlayer, transform.position, Quaternion.identity);
+        AudioSource audio = sfx.GetComponent<AudioSource>();
+
+        pitch = Mathf.Clamp(pitch, 1, 5);
+        audio.pitch = pitch;
+
+        audio.PlayOneShot(clip);
+        Destroy(sfx, clip.length + 0.25f);
+    }
 }
